@@ -25,6 +25,8 @@ public:
 
 private slots:
     void onSelectChange(int index);
+    void openFile();
+    bool isCsvFile(const QString &filePath);
 
 private:
     Ui::MainWindow *ui;
@@ -33,5 +35,7 @@ private:
     TextEditorWidget *textEditorWidget;
     CsvEditorWidget *csvEditorWidget;
     QLabel *label;
+
+    void setupMenuBar();
 };
 #endif // MAINWINDOW_H
