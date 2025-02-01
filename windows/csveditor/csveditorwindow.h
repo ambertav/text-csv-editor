@@ -1,17 +1,17 @@
-#ifndef CSVEDITORWIDGET_H
-#define CSVEDITORWIDGET_H
+#ifndef CSVEDITORWINDOW_H
+#define CSVEDITORWINDOW_H
 
 #include <QWidget>
 #include <QTableWidget>
 #include <QLabel>
 
-class CsvEditorWidget : public QWidget
+class CsvEditorWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CsvEditorWidget(QWidget *parent = nullptr);
-    ~CsvEditorWidget();
+    explicit CsvEditorWindow(QWidget *parent = nullptr);
+    ~CsvEditorWindow();
 
     void openFile(const QString &filePath);
     void saveFile();
@@ -23,4 +23,4 @@ private:
 };
 
 
-#endif // CSVEDITORWIDGET_H
+#endif // CSVEDITORWINDOW_H

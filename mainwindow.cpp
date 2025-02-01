@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include <QComboBox>
-#include <QStackedWidget>
 #include <QVBoxLayout>
 #include <QMenuBar>
 #include <QFileDialog>
@@ -10,42 +8,33 @@
 #include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , textEditorWidget(new TextEditorWidget(this))
-    , csvEditorWidget(new CsvEditorWidget(this))
+    : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    textEditorWindows.clear();
+    csvEditorWindows.clear();
+
     QWidget *mainWidget = new QWidget(this);
-    QWidget *landingWidget = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(mainWidget);
 
-    label = new QLabel("Choose an editor to start:\n", this);
+    label = new QLabel("Welcome:\n", this);
     label->setAlignment(Qt::AlignCenter);
 
-    editorComboBox = new QComboBox(this);
-    editorComboBox->addItem("");
-    editorComboBox->addItem("Text Editor");
-    editorComboBox->addItem("CSV Editor");
+    QPushButton *textEditorButton = new QPushButton("New Blank Document", this);
+    QPushButton *csvEditorButton = new QPushButton("New Blank CSV", this);
+    QPushButton *openFileButton = new QPushButton("Open File", this);
 
-    connect(editorComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(onSelectChange(int)));
 
-    stackedWidget = new QStackedWidget(this);
+    connect(textEditorButton, &QPushButton::clicked, this, &MainWindow::openTextEditor);
+    connect(csvEditorButton, &QPushButton::clicked, this, &MainWindow::openCsvEditor);
+    connect(openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
 
-    stackedWidget->addWidget(landingWidget);
-    stackedWidget->addWidget(textEditorWidget);
-    stackedWidget->addWidget(csvEditorWidget);
 
     layout->addWidget(label);
-    layout->addWidget(editorComboBox);
-    layout->addWidget(stackedWidget);
-
-    QPushButton *openFileButton = new QPushButton("Open File", this);
-    connect(openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
+    layout->addWidget(textEditorButton);
+    layout->addWidget(csvEditorButton);
     layout->addWidget(openFileButton);
-
 
     setCentralWidget(mainWidget);
 
@@ -55,9 +44,12 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete textEditorWidget;
-    delete csvEditorWidget;
     delete label;
+
+    qDeleteAll(textEditorWindows);
+    qDeleteAll(csvEditorWindows);
+    textEditorWindows.clear();
+    csvEditorWindows.clear();
 }
 
 void MainWindow::setupMenuBar()
@@ -73,9 +65,30 @@ void MainWindow::setupMenuBar()
     setMenuBar(menuBar);
 }
 
-void MainWindow::onSelectChange(int index)
+void MainWindow::openTextEditor()
 {
-    stackedWidget->setCurrentIndex(index);
+    TextEditorWindow *newWindow = new TextEditorWindow(this);
+    textEditorWindows.append(newWindow);
+
+    newWindow->setWindowFlags(Qt::Window);
+    connect(newWindow, &QObject::destroyed, this, [this, newWindow]() {
+        textEditorWindows.removeAll(newWindow);
+    });
+
+    newWindow->show();
+}
+
+void MainWindow::openCsvEditor()
+{
+    CsvEditorWindow *newWindow = new CsvEditorWindow(this);
+    csvEditorWindows.append(newWindow);
+
+    newWindow->setWindowFlags(Qt::Window);
+    connect(newWindow, &QObject::destroyed, this, [this, newWindow]() {
+        csvEditorWindows.removeAll(newWindow);
+    });
+
+    newWindow->show();
 }
 
 void MainWindow::openFile()
@@ -91,13 +104,13 @@ void MainWindow::openFile()
 
     if (isCsvFile(filePath))
     {
-        editorComboBox->setCurrentIndex(2);
-        csvEditorWidget->openFile(filePath);
+        openCsvEditor();
+        csvEditorWindows.last()->openFile(filePath);
     }
     else
     {
-        editorComboBox->setCurrentIndex(1);
-        textEditorWidget->openFile(filePath);
+        openTextEditor();
+        textEditorWindows.last()->openFile(filePath);
     }
 }
 

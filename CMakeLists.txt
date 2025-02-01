@@ -14,15 +14,15 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 set(TS_FILES text-csv-editor_en_US.ts)
 
-file(GLOB TEXT_EDITOR_WIDGETS
-    "${CMAKE_CURRENT_SOURCE_DIR}/widgets/texteditor/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/widgets/texteditor/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/widgets/texteditor/*.ui"
+file(GLOB TEXT_EDITOR_WINDOW
+    "${CMAKE_CURRENT_SOURCE_DIR}/windows/texteditor/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/windows/texteditor/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/windows/texteditor/*.ui"
 )
-file(GLOB CSV_EDITOR_WIDGETS
-    "${CMAKE_CURRENT_SOURCE_DIR}/widgets/csveditor/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/widgets/csveditor/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/widgets/csveditor/*.ui"
+file(GLOB CSV_EDITOR_WINDOW
+    "${CMAKE_CURRENT_SOURCE_DIR}/windows/csveditor/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/windows/csveditor/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/windows/csveditor/*.ui"
 )
 
 set(PROJECT_SOURCES
@@ -31,8 +31,8 @@ set(PROJECT_SOURCES
     mainwindow.h
     mainwindow.ui
     ${TS_FILES}
-    ${TEXT_EDITOR_WIDGETS}
-    ${CSV_EDITOR_WIDGETS}
+    ${TEXT_EDITOR_WINDOW}
+    ${CSV_EDITOR_WINDOW}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

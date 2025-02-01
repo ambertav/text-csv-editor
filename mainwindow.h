@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QComboBox>
-#include <QStackedWidget>
+#include <QList>
 #include <QLabel>
 
-#include "widgets/texteditor/texteditorwidget.h"
-#include "widgets/csveditor/csveditorwidget.h"
+
+#include "windows/texteditor/texteditorwindow.h"
+#include "windows/csveditor/csveditorwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,18 +24,18 @@ public:
     ~MainWindow();
 
 private slots:
-    void onSelectChange(int index);
+    void openTextEditor();
+    void openCsvEditor();
     void openFile();
-    bool isCsvFile(const QString &filePath);
+
 
 private:
     Ui::MainWindow *ui;
-    QComboBox *editorComboBox;
-    QStackedWidget *stackedWidget;
-    TextEditorWidget *textEditorWidget;
-    CsvEditorWidget *csvEditorWidget;
+    QList<TextEditorWindow*> textEditorWindows;
+    QList<CsvEditorWindow*> csvEditorWindows;
     QLabel *label;
 
     void setupMenuBar();
+    bool isCsvFile(const QString &filePath);
 };
 #endif // MAINWINDOW_H

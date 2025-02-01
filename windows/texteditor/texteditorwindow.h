@@ -1,17 +1,17 @@
-#ifndef TEXTEDITORWIDGET_H
-#define TEXTEDITORWIDGET_H
+#ifndef TEXTEDITORWINDOW_H
+#define TEXTEDITORWINDOW_H
 
 #include <QWidget>
 #include <QTextEdit>
 #include <QLabel>
 
-class TextEditorWidget : public QWidget
+class TextEditorWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit TextEditorWidget(QWidget *parent = nullptr);
-    ~TextEditorWidget();
+    explicit TextEditorWindow(QWidget *parent = nullptr);
+    ~TextEditorWindow();
 
     void openFile(const QString &filePath);
     void saveFile();
@@ -23,4 +23,4 @@ private:
     QLabel *label;
 };
 
-#endif // TEXTEDITORWIDGET_H
+#endif // TEXTEDITORWINDOW_H
