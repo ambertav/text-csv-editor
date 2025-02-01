@@ -57,13 +57,13 @@ void MainWindow::setupMenuBar()
     QMenuBar *menuBar = new QMenuBar(this);
     QMenu *fileMenu = menuBar->addMenu("&File");
 
-    QAction *openNewTextEditor = new QAction("&New Text Document", this);
+    QAction *openNewTextEditor = new QAction("&New Text File...", this);
     connect(openNewTextEditor, &QAction::triggered, this, &MainWindow::openTextEditor);
 
-    QAction *openNewCsvEditor = new QAction("&New CSV Document", this);
+    QAction *openNewCsvEditor = new QAction("&New CSV File...", this);
     connect(openNewCsvEditor, &QAction::triggered, this, &MainWindow::openCsvEditor);
 
-    QAction *openAction = new QAction("&Open", this);
+    QAction *openAction = new QAction("&Open...", this);
     openAction->setShortcut(QKeySequence::Open);
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
 
@@ -120,7 +120,7 @@ void MainWindow::openFile()
     else
     {
         openTextEditor();
-        textEditorWindows.last()->openFile(filePath);
+        textEditorWindows.last()->loadFile(filePath);
     }
 }
 

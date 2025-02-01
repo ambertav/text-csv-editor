@@ -13,14 +13,15 @@ public:
     explicit TextEditorWindow(QWidget *parent = nullptr);
     ~TextEditorWindow();
 
-    void openFile(const QString &filePath);
+    void loadFile(const QString &filePath);
     void saveFile();
 
 private:
     QTextEdit *textEdit;
     QString currentFilePath;
-
     QLabel *label;
+
+    void setupMenuBar();
 };
 
 #endif // TEXTEDITORWINDOW_H
