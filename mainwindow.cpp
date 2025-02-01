@@ -57,9 +57,19 @@ void MainWindow::setupMenuBar()
     QMenuBar *menuBar = new QMenuBar(this);
     QMenu *fileMenu = menuBar->addMenu("&File");
 
+    QAction *openNewTextEditor = new QAction("&New Text Document", this);
+    connect(openNewTextEditor, &QAction::triggered, this, &MainWindow::openTextEditor);
+
+    QAction *openNewCsvEditor = new QAction("&New CSV Document", this);
+    connect(openNewCsvEditor, &QAction::triggered, this, &MainWindow::openCsvEditor);
+
     QAction *openAction = new QAction("&Open", this);
     openAction->setShortcut(QKeySequence::Open);
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
+
+    fileMenu->addAction(openNewTextEditor);
+    fileMenu->addAction(openNewCsvEditor);
+    fileMenu->addSeparator();
     fileMenu->addAction(openAction);
 
     setMenuBar(menuBar);
