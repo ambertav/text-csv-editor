@@ -2,6 +2,7 @@
 #define TEXTEDITORWINDOW_H
 
 #include <QWidget>
+#include <QCloseEvent>
 #include <QTextEdit>
 #include <QLabel>
 
@@ -15,6 +16,9 @@ public:
 
     void loadFile(const QString &filePath);
     void saveFile();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private:
     QTextEdit *textEdit;

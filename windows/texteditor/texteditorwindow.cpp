@@ -28,6 +28,29 @@ TextEditorWindow::TextEditorWindow(QWidget *parent)
 
 TextEditorWindow::~TextEditorWindow() {};
 
+void TextEditorWindow::closeEvent(QCloseEvent *event) {
+    if (textEdit->document()->isModified()) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::warning(
+            this,
+            "Unsaved Changes",
+            "You have unsaved changes. Do you wish to save before exiting?",
+            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel
+            );
+
+        if (reply == QMessageBox::Yes)
+        {
+            saveFile();
+            event->accept();
+        }
+
+        else if (reply == QMessageBox::No) event->accept();
+        else if (reply == QMessageBox::Cancel) event->ignore();
+    }
+
+    else event->accept();
+}
+
 void TextEditorWindow::setupMenuBar()
 {
     QMenuBar *menuBar = new QMenuBar(this);
@@ -70,3 +93,5 @@ void TextEditorWindow::saveFile()
     QTextStream out(&file);
     out << textEdit->toPlainText();
 }
+
+
